@@ -1,5 +1,5 @@
-const connection = require ('../config/connection');
-const User = require ('../models/User');
-const {names, thoughts} = require ('./data.js');
+const connection = require('../config/connection');
+const User = require('../models/User');
+const { names, thoughts } = require('./data.js');
 
-console.time ('seeding');
+console.time('seeding');
