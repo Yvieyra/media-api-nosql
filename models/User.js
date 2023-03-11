@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose');
 
 const userSchema = new Schema(
     {
-        userId: {
+        userId: { //do we need user ID?
             type: Schema.Types.Objectid,
             default: () => new Types.Objectid(),
         },
@@ -44,6 +44,6 @@ userSchema
         return this.friends.length;
     });
 
-const User = model('User', userSchema);
+const User = model('user', userSchema);
 
 module.exports = User;
