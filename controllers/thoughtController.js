@@ -24,7 +24,7 @@ module.exports = {
             .then((thought => {
                 return User.findOneAndUpdate(
                     { _id: req.body.userId },
-                    { $addToSet: { applications: application._id } },
+                    { $addToSet: { thought: thought._id } },
                     { new: true }
                 );
             })
@@ -78,3 +78,7 @@ module.exports = {
             .catch((err) => res.status(500).json(err));
     },
 };
+
+//POST to create a reaction stored in a single thought's reactions array field
+
+//DELETE to pull and remove a reaction by the reaction's reactionId value
