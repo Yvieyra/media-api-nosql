@@ -20,3 +20,5 @@ router.route('/:thoughtId')
 router.route('/:thoughtId/reactions')
 // .post
 // .delete
+
+module.exports= router;
