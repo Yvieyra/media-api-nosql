@@ -9,17 +9,34 @@ module.exports = {
   },
 
   //get a single user by id and populated thought and friend data
+  // getSingleUser(req, res) {
+  //   User.findOne({ _id: req.params.userId })
+  //     .select('-__v')
+  //     .then((user) =>
+  //       !user
+  //         ? res.status(404).json({ message: 'No user with that ID' })
+  //         //   : res.json(user) //need to implement thought and friend data 
+  //         : Thought.find({ _id: { $in: user.thoughts, $in: user.friends } }) //correct? need friends data
+  //     )
+  //     .then(() => res.json({ User }))
+  //     .catch((err) => res.status(500).json(err));
+  // },
+
   getSingleUser(req, res) {
     User.findOne({ _id: req.params.userId })
       .select('-__v')
-      .then((user) =>
+      .then(async (user) =>
         !user
           ? res.status(404).json({ message: 'No user with that ID' })
-          //   : res.json(user) //need to implement thought and friend data 
-          : Thought.find({ _id: { $in: user.thoughts, $in: user.friends } }) //correct? need friends data
+          : res.json({
+              user
+              // thoughts:(req.params.userId),
+            })
       )
-      .then(() => res.json({ message: 'User and associated thought and friend data deleted!' }))
-      .catch((err) => res.status(500).json(err));
+      .catch((err) => {
+        console.log(err);
+        return res.status(500).json(err);
+      });
   },
 
   //create a new user 
