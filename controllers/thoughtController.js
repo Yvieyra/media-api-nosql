@@ -5,7 +5,7 @@ module.exports = {
     getThoughts(req, res) {
         Thought.find()
             .then((thoughts) => res.json(thoughts))
-            .cath((err) => res.status(500).json(err));
+            .catch((err) => res.status(500).json(err));
     },
     //get one thought 
     getSingleThought(req, res) {
@@ -18,22 +18,17 @@ module.exports = {
             )
             .catch((err) => res.status(500).json(err));
     },
-    //create a thought 
+    //create a thought //creating a thought with a new ID? and it is creating a new ID?
     createThought(req, res) {
         Thought.create(req.body)
             .then((thought) => {
                 return User.findOneAndUpdate(
                     { _id: req.body.userId },
-                    { $addToSet: { thought: thought._id } },
+                    { $push: { thoughts: thought._id } },
                     { new: true }
                 );
             })
-            .then((user) =>
-                !user
-                    ? res.status(404).json({
-                        message: 'Thought created, but found no user with that ID',
-                    })
-                    : res.json('Created new thought!')
+            .then(() => res.json('Created new thought!')
             )
             .catch((err) => {
                 console.log(err);
@@ -67,12 +62,7 @@ module.exports = {
                         { new: true }
                     )
             )
-            .then((user) =>
-                !user
-                    ? res.status(404).json({
-                        message: 'Thought deleted, but no user with this ID!'
-                    })
-                    : res.json({ message: 'Thought successfully deleted!' })
+            .then(() => res.json({ message: 'Thought successfully deleted!' })
             )
             .catch((err) => res.status(500).json(err));
     },
