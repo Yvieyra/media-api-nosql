@@ -77,7 +77,7 @@ module.exports = {
   addFriend(req, res) {
     User.findOneAndUpdate(
       { _id: req.params.userId },
-      { $addToSet: { friends: { userId: req.params.userId } } },
+      { $addToSet: { friends: req.params.friendId } },
       { runValidators: true, new: true }
     )
       .then((user) =>
@@ -91,23 +91,19 @@ module.exports = {
   },
 
   removeFriend(req, res) {
-    Thought.findOneAndUpdate(
-      { _id: req.params.thoughtId },
-      { $pull: { reactions: { reactionId: req.params.reactionId } } },
+    User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $pull: { friends: req.params.friendId } },
       { runValidators: true, new: true }
     )
-      .then((thought) =>
-        !thought
+      .then((user) =>
+        !user
           ? res
             .status(404)
             .json({ message: 'No reaction found with that ID' })
-          : res.json(thought)
+          : res.json(user)
       )
       .catch((err) => res.status(500).json(err));
   },
 
 };
-
-//POST to add a new friend to a user's friend list
-
-//DELETE to remove a friend from a user's friend list
